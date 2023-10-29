@@ -110,6 +110,7 @@ jobs:
           ../../mksapkg-OS5 -E -s -m ${PLATFORM}
           mv ../${PLATFORM}*.bin\(* ../${pkg}_${VERSION}_${MODEL}.bin
           echo "$(ls -l ..)"
+          mv ../${pkg}_${VERSION}_${MODEL}.bin "${RELEASE_DIR}"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v3
