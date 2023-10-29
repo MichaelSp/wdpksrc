@@ -24,11 +24,7 @@ jobs:
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
-      - name: Install yq
-        uses: mikefarah/yq@v2
-        with:
-          version: 2.4.1
-          
+
       - id: set-matrix
         if: github.event_name == 'push'
         run: |
