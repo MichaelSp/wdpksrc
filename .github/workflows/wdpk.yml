@@ -21,15 +21,9 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request'
         with:
           fetch-depth: 0
-      - id: set-from-input
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          # turn workflow dispatch input into JSON array
-          pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g')
-          echo "PACKAGES=[$pkgs]" >> $GITHUB_OUTPUT
-
       - id: set-matrix
         if: github.event_name == 'pull_request'
         run: |
@@ -48,6 +42,14 @@ jobs:
           
           echo "Packages: ${pkgs}"
           echo "PACKAGES=[${pkgs}]" >> $GITHUB_OUTPUT
+      
+      - id: set-from-input
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          # turn workflow dispatch input into JSON array
+          pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g')
+          echo "PACKAGES=[$pkgs]" >> $GITHUB_OUTPUT
+
 
   build:
     # The type of runner that the job will run on
