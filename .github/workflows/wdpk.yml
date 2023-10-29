@@ -164,7 +164,7 @@ jobs:
       - name: Publish packages to GH Releases
         id: push
         run: |
-          VERSION=$(echo '${{ needs.read.outputs.result }}' | yq eval ".version.${{ matrix.package }}"
+          VERSION=$(echo '${{ needs.read.outputs.result }}' | yq eval ".version.${{ matrix.package }}")
           
           echo "VERSION ${VERSION}"
           echo "PACKAGE ${{ matrix.package }}"
