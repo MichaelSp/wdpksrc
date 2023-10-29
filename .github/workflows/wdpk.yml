@@ -142,6 +142,7 @@ jobs:
       matrix:
         package: ${{fromJson(needs.prepare.outputs.packages)}}
     steps:
+      - uses: actions/checkout@v4
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
