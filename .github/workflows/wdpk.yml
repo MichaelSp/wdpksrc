@@ -35,24 +35,16 @@ jobs:
         run: |
           # get all changed directories in wdpk/**/
           pkg=$(git diff --name-only HEAD~1 HEAD | grep -oP 'wdpk/\K[^/]+(?=/)' | sort -u | uniq)
-
-          {
-            echo "packages<<EOF"
-            echo -e "{\"$(echo -e $pkgs | sed 's/ /"\n- "/g')\"}"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          
+          echo "packages=[\"${pkgs}\"]" >> $GITHUB_OUTPUT
 
       - id: set-from-input
         if: github.event_name == 'workflow_dispatch'
         run: |
           # turn workflow dispatch input into JSON array
-          pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g')
+          pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g' | sort -u | uniq)
 
-          {
-            echo "packages<<EOF"
-            echo -e "{\"$(echo -e $pkgs | sed 's/ /"\n- "/g')\"}"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          echo "packages=[\"${pkgs}\"]" >> $GITHUB_OUTPUT
 
   build:
     # The type of runner that the job will run on
