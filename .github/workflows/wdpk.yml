@@ -163,6 +163,8 @@ jobs:
 
       - name: Publish packages to GH Releases
         id: push
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           VERSION=$(echo '${{ needs.read.outputs.result }}' | yq eval ".version.${{ matrix.package }}")
           
