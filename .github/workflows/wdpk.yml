@@ -170,6 +170,6 @@ jobs:
           echo "VERSION ${VERSION}"
           echo "PACKAGE ${{ matrix.package }}"
 
-          gh release create ${{ matrix.package }}-${version} \
+          gh release create ${{ matrix.package }}-${VERSION} \
             --target ${{ github.ref }} \
             --generate-notes packages/${{ matrix.package }}/OS5/*.bin
