@@ -38,7 +38,7 @@ jobs:
 
           {
             echo "packages<<EOF"
-            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json | sed 's/\"\"//g'
+            echo -e "{\"$(echo -e $pkgs | sed 's/ /"\n- "/g')\"}"
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
@@ -50,7 +50,7 @@ jobs:
 
           {
             echo "packages<<EOF"
-            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json | sed 's/\"\"//g'
+            echo -e "{\"$(echo -e $pkgs | sed 's/ /"\n- "/g')\"}"
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
