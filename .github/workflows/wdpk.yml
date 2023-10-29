@@ -104,9 +104,9 @@ jobs:
           RELEASE_DIR="../../packages/${pkg}/OS5"
           mkdir -p "${RELEASE_DIR}"
 
-          echo "PLF ${PLATFORM} - $arr - ${PACKAGE}"
+          echo "PLF ${PLATFORM} - ${PACKAGE}"
           echo "Build ${pkg} for $MODEL"
-          ../../mksapkg-OS5 -E -s -m ${PLATFORM} > /dev/null
+          ../../mksapkg-OS5 -E -s -m ${PLATFORM}
           mv ../${PLATFORM}*.bin\(* ../${pkg}_${VERSION}_${MODEL}.bin
           echo "$(ls -l ..)"
 
