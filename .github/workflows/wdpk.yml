@@ -35,7 +35,7 @@ jobs:
         run: |
           # get all changed directories in wdpk/**/
           pkg=$(git diff --name-only HEAD~1 HEAD | grep -oP 'wdpk/\K[^/]+(?=/)' | sort -u | uniq)
-          
+
           echo "packages=[\"${pkgs}\"]" >> $GITHUB_OUTPUT
 
       - id: set-from-input
@@ -146,6 +146,9 @@ jobs:
           - package: sample
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -163,9 +166,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           VERSION=$(echo '${{ needs.read.outputs.result }}' | yq eval ".version.${{ matrix.package }}")
-          
+
           echo "VERSION ${VERSION}"
           echo "PACKAGE ${{ matrix.package }}"
 
           gh release create ${{ matrix.package }}-${version} \
+            --target ${{ github.ref }} \
             --generate-notes packages/${{ matrix.package }}/OS5/*.bin
