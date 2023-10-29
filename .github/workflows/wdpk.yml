@@ -109,9 +109,9 @@ jobs:
           ../../mksapkg-OS5 -E -s -m ${PLATFORM} > /dev/null
           mv ../${PLATFORM}*.bin\(* ../${pkg}_${VERSION}_${MODEL}.bin
           echo "$(ls -l ..)"
-      
+
       - name: upload artifacts
-        use: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.package }}
           path: packages/${{ matrix.package }}/OS5/*.bin
