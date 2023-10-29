@@ -156,12 +156,18 @@ jobs:
           name: ${{ matrix.package }}
           path: packages/${{ matrix.package }}/OS5
 
+      - uses: yokawasa/action-setup-kube-tools@v0.9.3
+        with:
+          setup-tools: yq
+          yq: "4.35.2"
+
       - name: Publish packages to GH Releases
         id: push
         run: |
-          version=${{ fromJson(needs.read.outputs.result).version }}
-          echo "VERSION ${version}"
+          VERSION=$(echo '${{ needs.read.outputs.result }}' | yq eval ".version.${{ matrix.package }}"
+          
+          echo "VERSION ${VERSION}"
           echo "PACKAGE ${{ matrix.package }}"
 
-          #gh release create ${{ matrix.package }}-${version} \
-          #  --generate-notes packages/${{ matrix.package }}/OS5/*.bin
+          gh release create ${{ matrix.package }}-${version} \
+            --generate-notes packages/${{ matrix.package }}/OS5/*.bin
