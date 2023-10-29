@@ -38,7 +38,7 @@ jobs:
 
           {
             echo "packages<<EOF"
-            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json
+            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json | sed 's/\"\"//g'
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
@@ -50,7 +50,7 @@ jobs:
 
           {
             echo "packages<<EOF"
-            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json
+            echo -e "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json | sed 's/\"\"//g'
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
@@ -156,6 +156,9 @@ jobs:
       - name: Publish packages to GH Releases
         id: push
         run: |
-          version=${{ fromJson(needs.read.outputs.result).version.${{ matrix.package }} }}
-          gh release create ${{ matrix.package }}-${version} \
-            --generate-notes packages/${{ matrix.package }}/OS5/*.bin
+          version=${{ fromJson(needs.read.outputs.result).version }}
+          echo "VERSION ${version}"
+          echo "PACKAGE ${{ matrix.package }}"
+
+          #gh release create ${{ matrix.package }}-${version} \
+          #  --generate-notes packages/${{ matrix.package }}/OS5/*.bin
