@@ -18,7 +18,7 @@
         "^apkg.rc$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sVersion:\\s+(?<currentValue>.*)\\s"
+        "\\sVersion:\\s+(?<currentValue>.*)\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },

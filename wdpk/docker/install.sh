@@ -6,7 +6,7 @@ path_src=$1
 NAS_PROG=$2
 
 # define docker version
-VERSION="24.0.7"
+VERSION="$(awk '/Version/{print $NF}' apkg.rc)"
 
 log=/tmp/debug_apkg
 
@@ -30,7 +30,6 @@ cd "${APKG_PATH}"
 TARBALL="docker-${VERSION}.tgz"
 
 URL="https://download.docker.com/linux/static/stable/${ARCH}/${TARBALL}"
-echo "Downloading FROM ---------------------- ${URL}" >> $log
 
 # download and extract the package
 curl -L "${URL}" | tar xz >> $log 2>&1
