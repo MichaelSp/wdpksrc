@@ -18,7 +18,7 @@ jobs:
   prepare: 
     runs-on: ubuntu-latest
     outputs:
-      packages: ${{ steps.set-matrix.outputs.packages }}
+      packages: ${{ steps.set-matrix.outputs.packages || steps.set-from-input.outputs.packages }}
     steps:
       - uses: actions/checkout@v4
         if: github.event_name == 'push'
