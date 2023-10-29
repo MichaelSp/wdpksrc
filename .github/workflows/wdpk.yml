@@ -61,7 +61,8 @@ jobs:
         model:
           [EX4100, DL4100, EX2100, DL2100, MirrorG2, Ex2Ultra, PR4100, PR2100]
         package: ${{fromJson(needs.prepare.outputs.packages)}}
-
+        exclude:
+          - package: sample
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -141,6 +142,8 @@ jobs:
     strategy:
       matrix:
         package: ${{fromJson(needs.prepare.outputs.packages)}}
+        exclude:
+          - package: sample
     steps:
       - uses: actions/checkout@v4
       - name: download artifacts
