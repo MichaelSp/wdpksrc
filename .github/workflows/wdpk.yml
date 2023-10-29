@@ -142,6 +142,7 @@ jobs:
     needs:
       - prepare
       - build
+      - read
     if: needs.prepare.outputs.packages != ''
     strategy:
       matrix:
