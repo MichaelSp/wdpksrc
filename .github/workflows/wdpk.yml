@@ -79,6 +79,7 @@ jobs:
         env:
           MODEL: ${{ matrix.model }}
           PACKAGE: ${{ matrix.package }}
+        shell: bash
         run: |
           declare -A PACKAGES
           PLATFORMS=( ["EX4100"]="WDMyCloudEX4100" ["EX2100"]="WDMyCloudEX2100" ["DL4100"]="WDMyCloudDL4100" ["DL2100"]="WDMyCloudDL2100" ["MirrorG2"]="WDMyCloudMirror" ["Ex2Ultra"]="MyCloudEX2Ultra" ["PR4100"]="MyCloudPR4100" ["PR2100"]="MyCloudPR2100")
