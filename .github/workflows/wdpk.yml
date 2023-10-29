@@ -24,6 +24,10 @@ jobs:
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
+      - name: Install yq
+        uses: mikefarah/yq@v2
+        with:
+          version: 2.4.1
           
       - id: set-matrix
         if: github.event_name == 'push'
@@ -31,19 +35,24 @@ jobs:
           # get all changed directories in wdpk/**/
           pkg=$(git diff --name-only HEAD~1 HEAD | grep -oP 'wdpk/\K[^/]+(?=/)' | sort -u | uniq)
           
-          # make JSON array from pkg list
-          pkgs=$(echo $pkg | sed 's/ /","/g')
-          
-          echo "Packages: ${pkgs}"
-          echo "packages=[${pkgs}]" >> $GITHUB_OUTPUT
+          # transform space separated list in "pkg" into YAML array
+          json=$(echo "packages:\n- \"$(echo $pkg | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json)
+
+          # set output
+          echo "PACKAGES: ${json}"
+          echo "packages=${json}" >> $GITHUB_OUTPUT
         
       - id: set-from-input
         if: github.event_name == 'workflow_dispatch'
         run: |
           # turn workflow dispatch input into JSON array
           pkgs=$(echo ${{ github.event.inputs.packages }} | sed 's/ /","/g')
-          echo "Packages: ${pkgs}"
-          echo "packages=[$pkgs]" >> $GITHUB_OUTPUT
+
+          json=$(echo "packages:\n- \"$(echo $pkgs | sed 's/ /"\n- "/g')\"" | yq e ".packages" -o json)
+
+          # set output
+          echo "PACKAGES: ${json}"
+          echo "packages=${json}" >> $GITHUB_OUTPUT
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
